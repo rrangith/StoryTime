@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import styled from 'styled-components';
-import {BrowserRouter as Router, Route,} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
 import StoryTime from './StoryTime';
 import Typing from 'react-typing-animation';
 
@@ -103,9 +103,11 @@ export default class App extends Component {
                     </DescriptionText>
                 </DescriptionDiv>
                 <ButtonDiv>
-                    <ButtonText>
-                        Start
-                    </ButtonText>
+                    <Link to={'/StoryTime'}>
+                        <ButtonText>
+                            Start
+                        </ButtonText>
+                    </Link>
                 </ButtonDiv>
             </HomeContainer>
         );
