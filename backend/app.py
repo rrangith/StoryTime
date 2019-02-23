@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, abort, send_file
+from flask import Flask, jsonify, request, abort, send_file, Response, stream_with_context
 from flask_cors import CORS
 from PIL import Image
 from google.cloud import vision
@@ -34,6 +34,7 @@ likelihood_name = ('UNKNOWN', 'VERY_UNLIKELY', 'UNLIKELY', 'POSSIBLE', 'LIKELY',
 
 mongo_client = pymongo.MongoClient('mongodb://localhost:27017/')
 mongo = mongo_client['storytime']['sessions']
+audio = mongo_client['audio']
 
 
 @app.route('/getImage', methods=['POST'])
@@ -113,7 +114,7 @@ def save():
     if not isinstance(data, list):
         abort(400)
 
-    file.save(os.path.join(app.config['UPLOAD_FOLDER'], _id))
+    audio.put(file, _id=_id)
     mongo.insert_one({'_id': _id, 'data': data})
     return jsonify(id=_id)
 
@@ -132,7 +133,11 @@ def listen(story):
     if obj is None:
         return abort(400)
 
-    return send_file(os.path.join(app.config['UPLOAD_FOLDER'], story))
+    def load():
+        file = audio.find(_id=story)
+        for i in range(0, len(file), 1024):
+            yield file[i:len(file) if len(file) < i + 1024 else i + 1024]
+    return Response(stream_with_context(load()), mimetype="audio/webm")
 
 
 if __name__ == '__main__':
