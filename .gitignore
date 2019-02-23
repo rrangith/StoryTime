@@ -1,4 +1,4 @@
-frontend/htv-client/.idea/
+frontend/.idea/
 *.xml
 __pycache__/
 *.json
