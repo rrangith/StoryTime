@@ -1,3 +1,5 @@
+frontend/htv-client/.idea/
+*.xml
 __pycache__/
 *.json
 .DS_STORE
@@ -5,3 +7,4 @@ venv
 .idea
 backend/secrets.py
 backend/test*
+node_modules/

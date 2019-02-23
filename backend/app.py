@@ -3,16 +3,20 @@ from flask_cors import CORS
 from PIL import Image
 from google.cloud import vision
 import base64
-import io
 import requests
 from io import BytesIO
 import os
-from secrets import azure_key
+import json
 
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'HackTheValley-eb4272e89b71.json'
+from secrets import azure_key, google_cloud_keyfile
 
-subscription_key = azure_key
+azure_subscription_key = azure_key
+
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = google_cloud_keyfile
+
 bing_search_url = "https://api.cognitive.microsoft.com/bing/v7.0/images/search"
+
+sentiment_url = "http://text-processing.com/api/sentiment/"
 
 app = Flask(__name__)
 CORS(app)
@@ -20,7 +24,6 @@ CORS(app)
 client = vision.ImageAnnotatorClient()
 # Names of likelihood from google.cloud.vision.enums
 likelihood_name = ('UNKNOWN', 'VERY_UNLIKELY', 'UNLIKELY', 'POSSIBLE', 'LIKELY', 'VERY_LIKELY')
-
 
 @app.route('/', methods=['GET'])
 def index():
@@ -30,43 +33,55 @@ def index():
 @app.route('/getImage', methods=['GET'])
 def get_image():
     # TODO tone analysis???
-    if not request.json or 'text' not in request.json or 'image' not in request.json:
+    if not request.json or 'text' not in request.json:
         return abort(400)
 
     text = request.json['text']
-    image = request.json['image']
-    if not isinstance(text, str) or not isinstance(image, str):
+    if not isinstance(text, str):
         return abort(400)
 
-    # strip the base64 image part from the string
-    image = image.split(';base64,')[1][:-1]
-    # convert the base64 into a bytes representation of the image
-    image = base64.b64decode(image)
-    # convert to google vision image
-    image_google = vision.types.Image(content=image)
-
-    response = client.face_detection(image=image_google)
-    faces = response.face_annotations
     score = 0
-    if len(faces) > 0:
-        # Emotion options: joy, sorrow, anger, surprise
-        face = faces[0]
-        if face.sorrow_likelihood >= 4:
-            score -= 1
-        if face.joy_likelihood >= 4:
-            score += 1
-    # TODO process text and convert to image, facial analysis on image
 
-    search_term = "cats"
+    if 'image' in request.json:
+        image = request.json['image']
+        if not isinstance(image, str):
+            return abort(400)
+        # strip the base64 image part from the string
+        image = image.split(';base64,')[1][:-1]
+        # convert the base64 into a bytes representation of the image
+        image = base64.b64decode(image)
+        # convert to google vision image
+        image_google = vision.types.Image(content=image)
 
-    headers = {"Ocp-Apim-Subscription-Key": subscription_key}
-    params = {"q": search_term, "license": "public", "imageType": "Clipart"}
+        response = client.face_detection(image=image_google)
+        faces = response.face_annotations
+        if len(faces) > 0:
+            # Emotion options: joy, sorrow, anger, surprise
+            face = faces[0]
+            if face.sorrow_likelihood >= 4:
+                score -= 1
+            if face.joy_likelihood >= 4:
+                score += 1
 
-    response = requests.get(bing_search_url, headers=headers, params=params)
-    response.raise_for_status()
+    response = requests.post(sentiment_url, data="text={}".format(text))
+    sentiment_results = response.json()
+    sentiment = sentiment_results['label']
+    if sentiment == "pos":
+        score += 1
+    elif sentiment == "neg":
+        score -= 1
+
+    if score < 0:
+        text += ' sad'
+    elif score > 0:
+        text += ' happy'
+
+    bing_headers = {"Ocp-Apim-Subscription-Key" : azure_subscription_key}
+    bing_params = {"q": text, "license": "public", "imageType": "Clipart"}
+    response = requests.get(bing_search_url, headers=bing_headers, params=bing_params)
     search_results = response.json()
-
     image_url = search_results['value'][0]['contentUrl']
+
     return image_url
 
 
