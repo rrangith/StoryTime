@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import SpeechRecognition from 'react-speech-recognition'
 import Button from '@material-ui/core/Button';
 import KeyboardVoiceIcon from "@material-ui/icons/KeyboardVoice";
-import { ReactMic } from 'react-mic';
+import {ReactMic} from 'react-mic';
 
 
 const NavBar = styled.div`
@@ -48,7 +48,8 @@ const StoryPic = styled.img`
 height: 270px
 max-width: none;
 min-width: 270px;
-margin:3%;
+margin:3%
+`;
 
 const MicDiv = styled.div`
     display: flex;
@@ -175,16 +176,16 @@ class App extends Component {
                     />
                 </Invisible>
                 <MicDiv>
-                <ReactMic
-                  record={this.state.record}
-                  className="sound-wave"
-                  onStop={this.onStop} />
+                    <ReactMic
+                        record={this.state.record}
+                        className="sound-wave"
+                        onStop={this.onStop}/>
                 </MicDiv>
                 <ButtonDiv>
-                  <Button onClick={this.stopRecording} type="button" variant="contained" color="secondary">
-                    <KeyboardVoiceIcon />
-                      stop
-                  </Button>
+                    <Button onClick={this.stopRecording} type="button" variant="contained" color="secondary">
+                        <KeyboardVoiceIcon/>
+                        stop
+                    </Button>
                 </ButtonDiv>
                 <PictureContainer>
                     {pics.map((row, index) => {
@@ -207,4 +208,5 @@ class App extends Component {
         );
     }
 }
+
 export default SpeechRecognition(App);
