@@ -18,7 +18,7 @@ os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'HackTheValley-eb4272e89b71.json'
 
 bing_search_url = "https://api.cognitive.microsoft.com/bing/v7.0/images/search"
 
-sentiment_url = "http://text-processing.com/api/sentiment"
+sentiment_url = "http://text-processing.com/api/sentiment/"
 
 app = Flask(__name__)
 CORS(app)
@@ -61,20 +61,18 @@ def get_image():
             score -= 1
         if face.joy_likelihood >= 4:
             score += 1
-    # TODO process text and convert to image, facial analysis on image
+    #TODO process text and convert to image, facial analysis on image
 
-    search_term = "cats"
+    search_term = "cats" ##GET RID OF THIS LINE ONLY HERE FOR TESTING PURPOSES
 
-    sentiment_params = {"text": search_term}
-
-    response = requests.post(sentiment_url, data=sentiment_params, headers={})
-    response.raise_for_status()
+    response = requests.post(sentiment_url, data="text=cats")
+    print(response.status_code)
     sentiment_results = response.json()
     sentiment = sentiment_results['label']
 
     if sentiment == "pos":
         score += 1
-    elif sentiment == "neutral":
+    elif sentiment == "neg":
         score -= 1
 
     if score < 0:
