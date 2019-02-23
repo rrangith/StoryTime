@@ -97,23 +97,25 @@ class App extends Component {
                 image: response.data,
                 text: this.state.text,
             };
-            let tmp = this.state.images;
-            let newRow = this.state.imageRow;
-            if (this.state.imageNum % 3 === 0) {
-                tmp.push([]);
-            } else if (this.state.imageNum % 3 === 2) {
-                newRow += 1;
+            if (storypic.image !== "Image not found") {
+              let tmp = this.state.images;
+              let newRow = this.state.imageRow;
+              if (this.state.imageNum % 3 === 0) {
+                  tmp.push([]);
+              } else if (this.state.imageNum % 3 === 2) {
+                  newRow += 1;
+              }
+              tmp[this.state.imageRow].push(storypic);
+              console.log(response);
+              console.log(this.state.images);
+              this.props.resetTranscript();
+              this.setState({
+                  text: '',
+                  images: tmp,
+                  imageRow: newRow,
+                  imageNum: this.state.imageNum + 1,
+              });
             }
-            tmp[this.state.imageRow].push(storypic);
-            console.log(response);
-            console.log(this.state.images);
-            this.props.resetTranscript();
-            this.setState({
-                text: '',
-                images: tmp,
-                imageRow: newRow,
-                imageNum: this.state.imageNum + 1,
-            });
         });
 
     };
