@@ -8,11 +8,17 @@ import requests
 from io import BytesIO
 import os
 from secrets import azure_key
+import json
+
+from secrets import azure_key
+
+azure_subscription_key = azure_key
 
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'HackTheValley-eb4272e89b71.json'
 
-subscription_key = azure_key
 bing_search_url = "https://api.cognitive.microsoft.com/bing/v7.0/images/search"
+
+sentiment_url = "http://text-processing.com/api/sentiment"
 
 app = Flask(__name__)
 CORS(app)
@@ -59,10 +65,28 @@ def get_image():
 
     search_term = "cats"
 
-    headers = {"Ocp-Apim-Subscription-Key": subscription_key}
-    params = {"q": search_term, "license": "public", "imageType": "Clipart"}
+    sentiment_params = {"text": search_term}
 
-    response = requests.get(bing_search_url, headers=headers, params=params)
+    response = requests.post(sentiment_url, data=sentiment_params, headers={})
+    response.raise_for_status()
+    sentiment_results = response.json()
+    sentiment = sentiment_results['label']
+
+    if sentiment == "pos":
+        score += 1
+    elif sentiment == "neutral":
+        score -= 1
+
+    if score < 0:
+        search_term += ' sad'
+    elif score > 0:
+        search_term += ' happy'
+
+    bing_headers = {"Ocp-Apim-Subscription-Key" : azure_subscription_key}
+    bing_params  = {"q": search_term, "license": "public", "imageType": "Clipart"}
+
+
+    response = requests.get(bing_search_url, headers=bing_headers, params=bing_params)
     response.raise_for_status()
     search_results = response.json()
 
