@@ -51,8 +51,8 @@ class App extends Component {
 
   capture = () => {
       const imageSrc = this.webcam.getScreenshot();
-      axios.get('http://localhost:5000/getImage', {
-          params: {image: imageSrc, text: this.state.text}
+      axios.post('http://localhost:5000/getImage', {
+          image: imageSrc, text: this.state.text
       }).then((response) => {
           console.log(response);
       });

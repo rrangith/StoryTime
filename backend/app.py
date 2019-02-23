@@ -10,8 +10,11 @@ import pymongo
 import string
 import random
 import json
+from stop_words import get_stop_words
 
 from secrets import azure_key, google_cloud_keyfile
+
+stop_words = get_stop_words('en')
 
 azure_subscription_key = azure_key
 
@@ -33,11 +36,10 @@ mongo_client = pymongo.MongoClient('mongodb://localhost:27017/')
 mongo = mongo_client['storytime']['sessions']
 
 
-@app.route('/getImage', methods=['GET'])
+@app.route('/getImage', methods=['POST'])
 def get_image():
     if not request.json or 'text' not in request.json:
         return abort(400)
-
     text = request.json['text']
     if not isinstance(text, str):
         return abort(400)
@@ -46,10 +48,11 @@ def get_image():
 
     if 'image' in request.json:
         image = request.json['image']
+
         if not isinstance(image, str):
             return abort(400)
         # strip the base64 image part from the string
-        image = image.split(';base64,')[1][:-1]
+        image = image.split(';base64,')[1]
         # convert the base64 into a bytes representation of the image
         image = base64.b64decode(image)
         # convert to google vision image
@@ -64,6 +67,9 @@ def get_image():
                 score -= 1
             if face.joy_likelihood >= 4:
                 score += 1
+
+    text = [word for word in text.split() if word.lower() not in stop_words] #remove stop words
+    text = ' '.join(text)
 
     response = requests.post(sentiment_url, data="text={}".format(text))
     sentiment_results = response.json()
@@ -82,8 +88,10 @@ def get_image():
     bing_params = {"q": text, "license": "public", "imageType": "Clipart"}
     response = requests.get(bing_search_url, headers=bing_headers, params=bing_params)
     search_results = response.json()
-    image_url = search_results['value'][0]['contentUrl']
 
+    if 'value' not in search_results or len(search_results['value']) < 1:
+        return 'Image not found'
+    image_url = search_results['value'][0]['contentUrl']
     return image_url
 
 
@@ -129,4 +137,4 @@ def listen(story):
 
 if __name__ == '__main__':
     # Run the flask server
-    app.run(port=5000, debug=False)
+    app.run(port=5000, debug=True)
