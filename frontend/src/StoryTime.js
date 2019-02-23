@@ -5,7 +5,10 @@ import Webcam from 'react-webcam';
 import axios from 'axios';
 import styled from 'styled-components';
 import SpeechRecognition from 'react-speech-recognition'
+import Button from '@material-ui/core/Button';
+import KeyboardVoiceIcon from "@material-ui/icons/KeyboardVoice";
 import { ReactMic } from 'react-mic';
+
 
 const NavBar = styled.div`
     height: 8vh;
@@ -16,6 +19,7 @@ const NavBar = styled.div`
 const TitleDiv = styled.div`
     display: inline-block;
 `;
+
 const TitleText = styled.div`
     font-family: Saira;
     font-weight: 800;
@@ -28,6 +32,20 @@ const TitleText = styled.div`
 
 const Invisible = styled.div`
   opacity:1;
+  display: flex;
+  justify-content: center;
+`;
+
+const MicDiv = styled.div`
+    display: flex;
+    justify-content: center;
+`;
+
+const ButtonDiv = styled.div`
+    height: 25vh;
+    text-align:center;
+    padding-top: 3.5%;
+    position: relative;
 `;
 
 const propTypes = {
@@ -112,23 +130,28 @@ class App extends Component {
                 </Link>
             </NavBar>
             <Invisible>
-                <Webcam
+              <Webcam
                     height={350}
                     width={400}
                     screenshotFormat="image/jpeg"
                     ref={this.setRef}
                 />
             </Invisible>
+            <MicDiv>
             <ReactMic
               record={this.state.record}
               className="sound-wave"
               onStop={this.onStop} />
-            <button onClick={this.stopRecording} type="button">Stop</button>
+            </MicDiv>
+            <ButtonDiv>
+              <Button onClick={this.stopRecording} type="button" variant="contained" color="secondary">
+                <KeyboardVoiceIcon />
+                  stop
+              </Button>
+            </ButtonDiv>
+            
         </div>
     );
   }
 }
-
-App.propTypes = propTypes;
-
-export default SpeechRecognition(App)
+export default SpeechRecognition(App);
