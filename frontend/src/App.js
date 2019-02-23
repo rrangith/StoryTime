@@ -19,7 +19,7 @@ const TitleText = styled.div`
     font-size: 12em;
     text-align: center;
     padding-top: 7%;
-    
+
 `;
 
 const DescriptionDiv = styled.div`
@@ -32,14 +32,14 @@ const DescriptionDiv = styled.div`
 `;
 
 const ButtonDiv = styled.div`
-    
+
     height: 25vh;
     background-color: #234569;
     text-align:center;
     padding-top: 3.5%;
     position: relative;
 
-    
+
 `;
 
 const ButtonText = styled.h2`
@@ -52,14 +52,14 @@ const ButtonText = styled.h2`
     font-weight: 800;
     font-size:2em;
     animation: buttonAppear 3.5s ease-in;
-    animation: 
+    animation:
     buttonAppear 1.5s ease-in;
     animation-delay: 2.35s;
     animation-fill-mode: forwards;
  @keyframes buttonAppear {
      from {opacity: 0}
      to {opacity: 100}
-    }    
+    }
     &:hover {
     background: #fff;
     color: #000;
@@ -72,10 +72,10 @@ const DescriptionText = styled.h2`
     font-weight: 800;
     font-size: 3em;
     text-align: center;
-   
-    
 
-    
+
+
+
 `;
 
 export default class App extends Component {
@@ -89,7 +89,7 @@ export default class App extends Component {
             <HomeContainer>
                 <TitleDiv>
                     <TitleText>
-                        storify
+                        storytime
                     </TitleText>
                 </TitleDiv>
                 <DescriptionDiv>

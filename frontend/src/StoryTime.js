@@ -52,6 +52,7 @@ const propTypes = {
   // Props injected by SpeechRecognition
   transcript: PropTypes.string,
   resetTranscript: PropTypes.func,
+  stopListening: PropTypes.func,
   browserSupportsSpeechRecognition: PropTypes.bool
 };
 
@@ -84,7 +85,7 @@ class App extends Component {
     if (this.state.text === this.props.transcript) {
       if (this.state.canSendRequest) {
         this.capture();
-        this.setState({canSendRequest: false})
+        this.setState({canSendRequest: false});
       }
     } else {
       this.setState({text: this.props.transcript, canSendRequest: true});
@@ -92,6 +93,7 @@ class App extends Component {
   };
 
   stopRecording = () => {
+      this.props.stopListening();
       this.setState({
           record: false
       });
@@ -114,7 +116,7 @@ class App extends Component {
   }
 
   render() {
-    const { transcript, resetTranscript, browserSupportsSpeechRecognition } = this.props;
+    const { transcript, resetTranscript, stopListening, browserSupportsSpeechRecognition } = this.props;
     if (!browserSupportsSpeechRecognition) {
       return null;
     }
@@ -138,10 +140,10 @@ class App extends Component {
                 />
             </Invisible>
             <MicDiv>
-            <ReactMic
-              record={this.state.record}
-              className="sound-wave"
-              onStop={this.onStop} />
+              <ReactMic
+                record={this.state.record}
+                className="sound-wave"
+                onStop={this.onStop} />
             </MicDiv>
             <ButtonDiv>
               <Button onClick={this.stopRecording} type="button" variant="contained" color="secondary">
@@ -149,7 +151,7 @@ class App extends Component {
                   stop
               </Button>
             </ButtonDiv>
-            
+
         </div>
     );
   }
