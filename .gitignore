@@ -6,4 +6,5 @@ __pycache__/
 venv
 .idea
 backend/secrets.py
+backend/test*
 node_modules/
