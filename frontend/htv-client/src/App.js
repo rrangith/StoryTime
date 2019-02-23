@@ -4,7 +4,6 @@ import {BrowserRouter as Router, Route,} from 'react-router-dom';
 import StoryTime from './StoryTime';
 import Typing from 'react-typing-animation';
 
-
 const HomeContainer = styled.div`
     height: 100vh;
 `;
@@ -23,26 +22,38 @@ const TitleText = styled.div`
     
 `;
 
-const ButtonDiv = styled.div`
-    height: 15vh;
+const DescriptionDiv = styled.div`
+    height: 20vh;
     background-color: #fff;
     margin: 0;
     padding-top: 1%;
-    padding-bottom: 5%;
     text-align: center;
-        position: relative;
+    position: relative;
 `;
 
-const DescriptionDiv = styled.div`
-    height: 35vh;
+const ButtonDiv = styled.div`
+    
+    height: 25vh;
     background-color: #234569;
     text-align:center;
-    color: #ffffff;
-    padding-top: 5%;
-        position: relative;
+    padding-top: 3.5%;
+    position: relative;
+
     
 `;
-
+const ButtonText = styled.h2`
+    opacity: 0;
+    color: #fff;
+    animation: buttonAppear 3.5s ease-in;
+    animation: 
+    buttonAppear 1.5s ease-in;
+    animation-delay: 2.35s;
+    animation-fill-mode: forwards;
+ @keyframes buttonAppear {
+     from {opacity: 0}
+     to {opacity: 100}
+    }    
+`;
 const DescriptionText = styled.h2`
     margin: 0 auto;
     color: #000000;
@@ -50,11 +61,15 @@ const DescriptionText = styled.h2`
     font-weight: 800;
     font-size: 3em;
     text-align: center;
+   
+    
+
+    
 `;
 
 export default class App extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
     };
 
@@ -66,7 +81,7 @@ export default class App extends Component {
                         storify
                     </TitleText>
                 </TitleDiv>
-                <ButtonDiv>
+                <DescriptionDiv>
                     <DescriptionText>
                         <Typing
                             startDelay='50ms'
@@ -75,12 +90,12 @@ export default class App extends Component {
                         </Typing>
 
                     </DescriptionText>
-                </ButtonDiv>
-                <DescriptionDiv>
-                    <Slide left>
-                        Click me
-                    </Slide>
                 </DescriptionDiv>
+                <ButtonDiv>
+                    <ButtonText>
+                        Click me
+                    </ButtonText>
+                </ButtonDiv>
             </HomeContainer>
         );
         return (
@@ -93,5 +108,3 @@ export default class App extends Component {
         );
     }
 }
-
-
