@@ -1,7 +1,7 @@
 frontend/.idea/
 *.xml
 __pycache__/
-*.json
+backend/HackTheValley-eb4272e89b71.json
 .DS_STORE
 venv
 .idea

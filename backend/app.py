@@ -9,6 +9,7 @@ import string
 import random
 from stop_words import get_stop_words
 import gridfs
+import json
 
 from secrets import azure_key, google_cloud_keyfile
 
@@ -94,7 +95,6 @@ def get_image():
     return image_url
 
 
-# Expect {"data": [{"time": 1, "text": "whatever", "image": "url.com"}], "audio": whatever audio format}
 @app.route('/save', methods=['POST'])
 def save():
     if not request.form or 'data' not in request.form:
@@ -109,7 +109,8 @@ def save():
 
     _id = ''.join(random.choices(string.ascii_uppercase + string.digits, k=5))
     data = request.form['data']
-    if not isinstance(data, str):
+    data = json.loads(data)
+    if not isinstance(data, list):
         abort(400)
 
     audio.put(file, _id=_id)
@@ -136,6 +137,19 @@ def listen(story):
         for i in range(0, len(file), 1024):
             yield file[i:len(file) if len(file) < i + 1024 else i + 1024]
     return Response(stream_with_context(load()), mimetype="audio/webm")
+
+
+@app.route('/thumbnail/<story>', methods=['GET'])
+def get_thumbnail(story):
+    obj = mongo.find_one({'_id': story})
+    if obj is None:
+        return abort(400)
+    pass
+
+
+@app.route('/getRecentStories', methods=['GET'])
+def get_recent_stories():
+    pass
 
 
 if __name__ == '__main__':
