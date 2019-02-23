@@ -2,3 +2,4 @@ Flask==1.0.2
 google-cloud-vision==0.35.2
 Flask-Cors==3.0.4
 stop-words==2018.7.23
+pymongo==3.7.2

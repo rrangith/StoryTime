@@ -1,16 +1,14 @@
-from flask import Flask, jsonify, request, abort, send_file, Response, stream_with_context
+from flask import Flask, jsonify, request, abort, Response, stream_with_context
 from flask_cors import CORS
-from PIL import Image
 from google.cloud import vision
 import base64
 import requests
-from io import BytesIO
 import os
 import pymongo
 import string
 import random
-import json
 from stop_words import get_stop_words
+import gridfs
 
 from secrets import azure_key, google_cloud_keyfile
 
@@ -34,7 +32,7 @@ likelihood_name = ('UNKNOWN', 'VERY_UNLIKELY', 'UNLIKELY', 'POSSIBLE', 'LIKELY',
 
 mongo_client = pymongo.MongoClient('mongodb://localhost:27017/')
 mongo = mongo_client['storytime']['sessions']
-audio = mongo_client['audio']
+audio = gridfs.GridFS(mongo_client['audio'])
 
 
 @app.route('/getImage', methods=['POST'])
@@ -99,19 +97,19 @@ def get_image():
 # Expect {"data": [{"time": 1, "text": "whatever", "image": "url.com"}], "audio": whatever audio format}
 @app.route('/save', methods=['POST'])
 def save():
-    if not request.json or 'data' not in request.json:
+    if not request.form or 'data' not in request.form:
         return abort(400)
 
-    if 'file' not in request.files:
+    if 'audio' not in request.files:
         return abort(400)
 
-    file = request.files['file']
+    file = request.files['audio']
     if file.filename == '':
         return abort(400)
 
     _id = ''.join(random.choices(string.ascii_uppercase + string.digits, k=5))
-    data = request.json['data']
-    if not isinstance(data, list):
+    data = request.form['data']
+    if not isinstance(data, str):
         abort(400)
 
     audio.put(file, _id=_id)
@@ -134,7 +132,7 @@ def listen(story):
         return abort(400)
 
     def load():
-        file = audio.find(_id=story)
+        file = audio.find_one({'_id': story}).read()
         for i in range(0, len(file), 1024):
             yield file[i:len(file) if len(file) < i + 1024 else i + 1024]
     return Response(stream_with_context(load()), mimetype="audio/webm")

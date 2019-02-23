@@ -5,6 +5,7 @@ import Webcam from 'react-webcam';
 import axios from 'axios';
 import styled from 'styled-components';
 import SpeechRecognition from 'react-speech-recognition'
+import { ReactMic } from 'react-mic';
 
 const NavBar = styled.div`
     height: 8vh;
@@ -41,7 +42,8 @@ class App extends Component {
       super(props);
       this.state = {
           text: '',
-          canSendRequest: true
+          canSendRequest: true,
+          record: true
       };
   }
 
@@ -58,7 +60,7 @@ class App extends Component {
       });
       this.props.resetTranscript();
       this.setState({text: ''});
-  }
+  };
 
   compareLastTranscript = () => {
     if (this.state.text === this.props.transcript) {
@@ -69,7 +71,25 @@ class App extends Component {
     } else {
       this.setState({text: this.props.transcript, canSendRequest: true});
     }
-  }
+  };
+
+  stopRecording = () => {
+      this.setState({
+          record: false
+      });
+  };
+
+  onStop(recordedBlob) {
+      let formData = new FormData();
+      formData.append("data", "[]");
+      formData.append("audio", recordedBlob.blob);
+      axios.post('http://localhost:5000/save', formData, {
+          headers: {'Content-Type': 'multipart/form-data'}
+      }).then((response) => {
+          console.log(response);
+      });
+      console.log('recordedBlob is: ', recordedBlob);
+  };
 
   componentDidMount() {
     setInterval(this.compareLastTranscript, 750);
@@ -99,6 +119,11 @@ class App extends Component {
                     ref={this.setRef}
                 />
             </Invisible>
+            <ReactMic
+              record={this.state.record}
+              className="sound-wave"
+              onStop={this.onStop} />
+            <button onClick={this.stopRecording} type="button">Stop</button>
         </div>
     );
   }
