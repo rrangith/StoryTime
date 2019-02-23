@@ -16,7 +16,7 @@ from secrets import azure_key, google_cloud_keyfile
 stop_words = get_stop_words('en')
 
 azure_subscription_key = azure_key
-blacklist = ['pixelbay']
+blacklist = ['pixabay']
 
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = google_cloud_keyfile
 

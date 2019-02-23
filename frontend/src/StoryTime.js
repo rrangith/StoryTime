@@ -90,14 +90,17 @@ class App extends Component {
 
     capture = () => {
         const imageSrc = this.webcam.getScreenshot();
-        axios.post('http://localhost:5000/getImage', {
+        axios.post('/api/getImage', {
             image: imageSrc, text: this.state.text
         }).then((response) => {
             let storypic = {
                 image: response.data,
                 text: this.state.text,
             };
-            if (storypic.image !== "Image not found") {
+            if (storypic.image === "Image not found") {
+              this.props.resetTranscript();
+              this.setState({text: ''});
+            } else {
               let tmp = this.state.images;
               let newRow = this.state.imageRow;
               if (this.state.imageNum % 3 === 0) {
@@ -142,7 +145,7 @@ class App extends Component {
         let formData = new FormData();
         formData.append("data", "[]");
         formData.append("audio", recordedBlob.blob);
-        axios.post('http://localhost:5000/save', formData, {
+        axios.post('/api/save', formData, {
             headers: {'Content-Type': 'multipart/form-data'}
         }).then((response) => {
             console.log(response);
