@@ -1,6 +1,4 @@
-
-
-frontend/htv-client/.idea/workspace.xml
+frontend/htv-client/.idea/
 *.xml
 __pycache__/
 *.json
@@ -8,4 +6,3 @@ __pycache__/
 venv
 .idea
 backend/secrets.py
-
