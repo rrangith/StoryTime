@@ -41,9 +41,16 @@ const ButtonDiv = styled.div`
 
     
 `;
+
 const ButtonText = styled.h2`
     opacity: 0;
+    display: inline-block
+    padding: 0.4% 3.4% ;
+    border-radius: 5%;
     color: #fff;
+    font-family: Tajawal;
+    font-weight: 800;
+    font-size:2em;
     animation: buttonAppear 3.5s ease-in;
     animation: 
     buttonAppear 1.5s ease-in;
@@ -53,6 +60,10 @@ const ButtonText = styled.h2`
      from {opacity: 0}
      to {opacity: 100}
     }    
+    &:hover {
+    background: #fff;
+    color: #000;
+  }
 `;
 const DescriptionText = styled.h2`
     margin: 0 auto;
@@ -93,7 +104,7 @@ export default class App extends Component {
                 </DescriptionDiv>
                 <ButtonDiv>
                     <ButtonText>
-                        Click me
+                        Start
                     </ButtonText>
                 </ButtonDiv>
             </HomeContainer>
