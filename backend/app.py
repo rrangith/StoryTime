@@ -35,6 +35,9 @@ mongo_client = pymongo.MongoClient('mongodb://localhost:27017/')
 mongo = mongo_client['storytime']['sessions']
 audio = gridfs.GridFS(mongo_client['audio'])
 
+@app.route('/', methods=['GET'])
+def get_page():
+    return 'hi'
 
 @app.route('/getImage', methods=['POST'])
 def get_image():
@@ -72,12 +75,13 @@ def get_image():
     text = ' '.join(text)
 
     response = requests.post(sentiment_url, data="text={}".format(text))
-    sentiment_results = response.json()
-    sentiment = sentiment_results['label']
-    if sentiment == "pos":
-        score += 1
-    elif sentiment == "neg":
-        score -= 1
+    if response.status_code == 200:
+        sentiment_results = response.json()
+        sentiment = sentiment_results['label']
+        if sentiment == "pos":
+            score += 1
+        elif sentiment == "neg":
+            score -= 1
 
     if score < 0:
         text += ' sad'
@@ -154,4 +158,4 @@ def get_recent_stories():
 
 if __name__ == '__main__':
     # Run the flask server
-    app.run(port=5000, debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=False)
