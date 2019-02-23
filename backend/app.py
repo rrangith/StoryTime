@@ -35,6 +35,9 @@ mongo_client = pymongo.MongoClient('mongodb://localhost:27017/')
 mongo = mongo_client['storytime']['sessions']
 audio = gridfs.GridFS(mongo_client['audio'])
 
+@app.route('/', methods=['GET'])
+def get_page():
+    return 'hi'
 
 @app.route('/getImage', methods=['POST'])
 def get_image():
@@ -154,4 +157,4 @@ def get_recent_stories():
 
 if __name__ == '__main__':
     # Run the flask server
-    app.run(port=5000, debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)
