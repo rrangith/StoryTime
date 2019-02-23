@@ -5,7 +5,10 @@ import Webcam from 'react-webcam';
 import axios from 'axios';
 import styled from 'styled-components';
 import SpeechRecognition from 'react-speech-recognition'
-import {ReactMic} from 'react-mic';
+import Button from '@material-ui/core/Button';
+import KeyboardVoiceIcon from "@material-ui/icons/KeyboardVoice";
+import { ReactMic } from 'react-mic';
+
 
 const NavBar = styled.div`
     height: 8vh;
@@ -16,6 +19,7 @@ const NavBar = styled.div`
 const TitleDiv = styled.div`
     display: inline-block;
 `;
+
 const TitleText = styled.div`
     font-family: Saira;
     font-weight: 800;
@@ -26,23 +30,36 @@ const TitleText = styled.div`
 `;
 
 const Invisible = styled.div`
-    opacity:1;
+  opacity:1;
+  display: flex;
+  justify-content: center;
 `;
 const PictureContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    margin-left: 15%;
+display: flex;
+flex-direction: column;
+margin-left: 15%;
 `;
 const PictureRow = styled.div`
-    display: flex;
-    flex-direction: row;
-    margin-top: 3%; 
+display: flex;
+flex-direction: row;
+margin-top: 3%;
 `;
 const StoryPic = styled.img`
-    height: 270px
-    max-width: none;
-    min-width: 270px;
-    margin:3%;
+height: 270px
+max-width: none;
+min-width: 270px;
+margin:3%;
+
+const MicDiv = styled.div`
+    display: flex;
+    justify-content: center;
+`;
+
+const ButtonDiv = styled.div`
+    height: 25vh;
+    text-align:center;
+    padding-top: 3.5%;
+    position: relative;
 `;
 
 const propTypes = {
@@ -157,12 +174,18 @@ class App extends Component {
                         ref={this.setRef}
                     />
                 </Invisible>
+                <MicDiv>
                 <ReactMic
-                    record={this.state.record}
-                    className="sound-wave"
-                    onStop={this.onStop}/>
-                <button onClick={this.stopRecording} type="button">Stop</button>
-                <br/>
+                  record={this.state.record}
+                  className="sound-wave"
+                  onStop={this.onStop} />
+                </MicDiv>
+                <ButtonDiv>
+                  <Button onClick={this.stopRecording} type="button" variant="contained" color="secondary">
+                    <KeyboardVoiceIcon />
+                      stop
+                  </Button>
+                </ButtonDiv>
                 <PictureContainer>
                     {pics.map((row, index) => {
                             return (
@@ -184,7 +207,4 @@ class App extends Component {
         );
     }
 }
-
-App.propTypes = propTypes;
-
-export default SpeechRecognition(App)
+export default SpeechRecognition(App);

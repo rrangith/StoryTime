@@ -16,6 +16,7 @@ from secrets import azure_key, google_cloud_keyfile
 stop_words = get_stop_words('en')
 
 azure_subscription_key = azure_key
+blacklist = ['pixelbay']
 
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = google_cloud_keyfile
 
@@ -35,6 +36,9 @@ mongo_client = pymongo.MongoClient('mongodb://localhost:27017/')
 mongo = mongo_client['storytime']['sessions']
 audio = gridfs.GridFS(mongo_client['audio'])
 
+@app.route('/', methods=['GET'])
+def get_page():
+    return 'hi'
 
 @app.route('/getImage', methods=['POST'])
 def get_image():
@@ -72,12 +76,13 @@ def get_image():
     text = ' '.join(text)
 
     response = requests.post(sentiment_url, data="text={}".format(text))
-    sentiment_results = response.json()
-    sentiment = sentiment_results['label']
-    if sentiment == "pos":
-        score += 1
-    elif sentiment == "neg":
-        score -= 1
+    if response.status_code == 200:
+        sentiment_results = response.json()
+        sentiment = sentiment_results['label']
+        if sentiment == "pos":
+            score += 1
+        elif sentiment == "neg":
+            score -= 1
 
     if score < 0:
         text += ' sad'
@@ -85,14 +90,19 @@ def get_image():
         text += ' happy'
 
     bing_headers = {"Ocp-Apim-Subscription-Key": azure_subscription_key}
-    bing_params = {"q": text, "license": "public"}
+    bing_params = {"q": text, "license": "public", "imageType": "Photo"}
     response = requests.get(bing_search_url, headers=bing_headers, params=bing_params)
     search_results = response.json()
 
-    if 'value' not in search_results or len(search_results['value']) < 1:
+    if 'value' not in search_results:
         return 'Image not found'
-    image_url = search_results['value'][0]['contentUrl']
-    return image_url
+
+    for i in range(len(search_results['value'])):
+        image_url = search_results['value'][i]['contentUrl']
+        if not any(banned in image_url for banned in blacklist):
+            return image_url
+
+    return 'Image not found'
 
 
 @app.route('/save', methods=['POST'])
@@ -154,4 +164,4 @@ def get_recent_stories():
 
 if __name__ == '__main__':
     # Run the flask server
-    app.run(port=5000, debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=False)

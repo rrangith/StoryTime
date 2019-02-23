@@ -63,7 +63,7 @@ const ButtonText = styled.h2`
     &:hover {
     background: #fff;
     color: #000;
-  }
+    }
 `;
 const DescriptionText = styled.h2`
     margin: 0 auto;
