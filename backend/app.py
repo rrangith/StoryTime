@@ -90,7 +90,7 @@ def get_image():
         text += ' happy'
 
     bing_headers = {"Ocp-Apim-Subscription-Key": azure_subscription_key}
-    bing_params = {"q": text, "license": "public", "imageType": "Clipart"}
+    bing_params = {"q": text, "license": "public", "imageType": "Photo"}
     response = requests.get(bing_search_url, headers=bing_headers, params=bing_params)
     search_results = response.json()
 
