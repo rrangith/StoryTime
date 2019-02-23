@@ -23,18 +23,17 @@ const TitleText = styled.div`
 `;
 
 const DescriptionDiv = styled.div`
-    height: 15vh;
+    height: 20vh;
     background-color: #fff;
     margin: 0;
     padding-top: 1%;
-    padding-bottom: 5%;
     text-align: center;
-        position: relative;
+    position: relative;
 `;
 
 const ButtonDiv = styled.div`
     
-    height: 35vh;
+    height: 25vh;
     background-color: #234569;
     text-align:center;
     padding-top: 3.5%;
