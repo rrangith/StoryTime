@@ -36,6 +36,10 @@ def get_image():
     if not request.json or 'text' not in request.json:
         return abort(400)
 
+    text = request.json['text']
+    if not isinstance(text, str):
+        return abort(400)
+
     score = 0
 
     if 'image' in request.json:
@@ -58,10 +62,6 @@ def get_image():
                 score -= 1
             if face.joy_likelihood >= 4:
                 score += 1
-
-    text = request.json['text']
-    if not isinstance(text, str):
-        return abort(400)
 
     response = requests.post(sentiment_url, data="text={}".format(text))
     sentiment_results = response.json()
