@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import {BrowserRouter as Router, Route,} from 'react-router-dom';
 import StoryTime from './StoryTime';
 import Typing from 'react-typing-animation';
-import Slide from 'react-reveal/Slide';
+
 
 const HomeContainer = styled.div`
     height: 100vh;
@@ -50,7 +50,6 @@ const DescriptionText = styled.h2`
     font-weight: 800;
     font-size: 3em;
     text-align: center;
-    
 `;
 
 export default class App extends Component {
@@ -61,7 +60,6 @@ export default class App extends Component {
 
     render() {
         const Home = () => (
-
             <HomeContainer>
                 <TitleDiv>
                     <TitleText>
