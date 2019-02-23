@@ -34,14 +34,15 @@ const propTypes = {
   transcript: PropTypes.string,
   resetTranscript: PropTypes.func,
   browserSupportsSpeechRecognition: PropTypes.bool
-}
+};
 
 class App extends Component {
   constructor(props) {
       super(props);
       this.state = {
-          text: ''
-      }
+          text: '',
+          canSendRequest: true
+      };
   }
 
   setRef = webcam => {
@@ -55,12 +56,29 @@ class App extends Component {
       }).then((response) => {
           console.log(response);
       });
+      this.props.resetTranscript();
+      this.setState({text: ''});
+  }
+
+  compareLastTranscript = () => {
+    if (this.state.text === this.props.transcript) {
+      if (this.state.canSendRequest) {
+        this.capture();
+        this.setState({canSendRequest: false})
+      }
+    } else {
+      this.setState({text: this.props.transcript, canSendRequest: true});
+    }
+  }
+
+  componentDidMount() {
+    setInterval(this.compareLastTranscript, 750);
   }
 
   render() {
-    const { transcript, resetTranscript, browserSupportsSpeechRecognition } = this.props
+    const { transcript, resetTranscript, browserSupportsSpeechRecognition } = this.props;
     if (!browserSupportsSpeechRecognition) {
-      return null
+      return null;
     }
     return (
         <div>
@@ -86,6 +104,6 @@ class App extends Component {
   }
 }
 
-App.propTypes = propTypes
+App.propTypes = propTypes;
 
 export default SpeechRecognition(App)
