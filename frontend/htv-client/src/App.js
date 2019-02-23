@@ -16,7 +16,7 @@ export default class App extends Component {
         const Home = () => (
             <div>
                 <h1>
-                    KAKASHI
+                    kakashi senpai
                 </h1>
             </div>
         );
