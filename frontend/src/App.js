@@ -95,7 +95,7 @@ export default class App extends Component {
                 <DescriptionDiv>
                     <DescriptionText>
                         <Typing
-                            startDelay='50ms'
+
                         >
                             <span>We bring your stories to life.</span>
                         </Typing>
