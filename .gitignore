@@ -1,6 +1,11 @@
+
+
+frontend/htv-client/.idea/workspace.xml
+*.xml
 __pycache__/
 *.json
 .DS_STORE
 venv
 .idea
 backend/secrets.py
+
