@@ -16,6 +16,7 @@ from secrets import azure_key, google_cloud_keyfile
 stop_words = get_stop_words('en')
 
 azure_subscription_key = azure_key
+blacklist = ['pixelbay']
 
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = google_cloud_keyfile
 
@@ -93,10 +94,15 @@ def get_image():
     response = requests.get(bing_search_url, headers=bing_headers, params=bing_params)
     search_results = response.json()
 
-    if 'value' not in search_results or len(search_results['value']) < 1:
+    if 'value' not in search_results:
         return 'Image not found'
-    image_url = search_results['value'][0]['contentUrl']
-    return image_url
+
+    for i in range(len(search_results['value'])):
+        image_url = search_results['value'][i]['contentUrl']
+        if not any(banned in image_url for banned in blacklist):
+            return image_url
+
+    return 'Image not found'
 
 
 @app.route('/save', methods=['POST'])
