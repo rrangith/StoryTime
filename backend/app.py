@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, abort, Response, stream_with_context
+from flask import Flask, jsonify, request, abort, Response, stream_with_context, send_file
 from flask_cors import CORS
 from google.cloud import vision
 import base64
@@ -10,6 +10,7 @@ import random
 from stop_words import get_stop_words
 import gridfs
 import json
+import io
 
 from secrets import azure_key, google_cloud_keyfile, mongo_uri
 
@@ -144,11 +145,8 @@ def listen(story):
     if obj is None:
         return abort(400)
 
-    def load():
-        file = audio.find_one({'_id': story}).read()
-        for i in range(0, len(file), 1024):
-            yield file[i:len(file) if len(file) < i + 1024 else i + 1024]
-    return Response(stream_with_context(load()), mimetype="audio/webm")
+    file = audio.find_one({'_id': story}).read()
+    return send_file(io.BytesIO(file), mimetype='audio/webm')
 
 
 @app.route('/stories', methods=['GET'])
