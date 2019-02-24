@@ -77,7 +77,7 @@ export default class WatchVideo extends Component {
                 <Link to=''>
                     <TitleDiv>
                         <TitleText>
-                            storytimeWV
+                            storytime
                         </TitleText>
                     </TitleDiv>
                 </Link>
