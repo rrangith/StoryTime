@@ -148,7 +148,9 @@ def listen(story):
         file = audio.find_one({'_id': story}).read()
         for i in range(0, len(file), 1024):
             yield file[i:len(file) if len(file) < i + 1024 else i + 1024]
-    return Response(stream_with_context(load()), mimetype="audio/webm")
+    resp = Response(stream_with_context(load()), mimetype="audio/webm")
+    resp.status_code = 206
+    return resp
 
 
 @app.route('/stories', methods=['GET'])
