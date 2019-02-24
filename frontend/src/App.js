@@ -232,6 +232,11 @@ export default class App extends Component {
                             Start
                         </ButtonText>
                     </Link>
+                    <Link to={'/VideoFeed'}>
+                        <ButtonText>
+                            Videos
+                        </ButtonText>
+                    </Link>
                 </ButtonDiv>
             </HomeContainer>
         );

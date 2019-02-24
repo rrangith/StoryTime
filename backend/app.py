@@ -16,7 +16,7 @@ from secrets import azure_key, google_cloud_keyfile
 stop_words = get_stop_words('en')
 
 azure_subscription_key = azure_key
-blacklist = ['pixabay']
+blacklist = ['pixelbay']
 
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = google_cloud_keyfile
 
@@ -128,7 +128,7 @@ def save():
     return jsonify(id=_id)
 
 
-@app.route('/<story>', methods=['GET'])
+@app.route('/story/<story>', methods=['GET'])
 def watch(story):
     obj = mongo.find_one({'_id': story})
     if obj is None:
@@ -148,16 +148,7 @@ def listen(story):
             yield file[i:len(file) if len(file) < i + 1024 else i + 1024]
     return Response(stream_with_context(load()), mimetype="audio/webm")
 
-
-@app.route('/thumbnail/<story>', methods=['GET'])
-def get_thumbnail(story):
-    obj = mongo.find_one({'_id': story})
-    if obj is None:
-        return abort(400)
-    pass
-
-
-@app.route('/getRecentStories', methods=['GET'])
+@app.route('/stories', methods=['GET'])
 def get_recent_stories():
     pass
 
