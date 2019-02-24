@@ -75,7 +75,7 @@ export default class WatchVideo extends Component {
 
     render() {
         let pics = this.state.pictures;
-        let audURL = "https://storytime.tech/api/audio"+ this.state.storyID;
+        let audURL = "https://storytime.tech/api/audio/"+ this.state.storyID;
         return (
             <div>
                 <NavBar>
@@ -87,6 +87,11 @@ export default class WatchVideo extends Component {
                         </TitleDiv>
                     </Link>
                 </NavBar>
+                <audio
+                    src={audURL}
+                    type="audio/webm"
+                    controls>
+                </audio>
                 <PictureContainer>
                     {pics.map((row, index) => {
                             return (
@@ -96,11 +101,7 @@ export default class WatchVideo extends Component {
                                             <ImageDiv>
                                                 <StoryPic src={imgObj.image} key={index} height="300" width="250"/>
                                                 <CaptionText>{imgObj.text}</CaptionText>
-                                                <audio
-                                                    src={audURL}
-                                                    type="audio/webm"
-                                                    controls>
-                                                </audio>
+
                                             </ImageDiv>
                                         );
                                     })
