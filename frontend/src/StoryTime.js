@@ -71,7 +71,7 @@ class App extends Component {
 
   capture = () => {
       const imageSrc = this.webcam.getScreenshot();
-      axios.post('/api/getImage', {
+      axios.post('http://localhost:5000/getImage', {
           image: imageSrc, text: this.state.text
       }).then((response) => {
           console.log(response);
@@ -101,7 +101,7 @@ class App extends Component {
       let formData = new FormData();
       formData.append("data", "[]");
       formData.append("audio", recordedBlob.blob);
-      axios.post('/api/save', formData, {
+      axios.post('http://localhost:5000/save', formData, {
           headers: {'Content-Type': 'multipart/form-data'}
       }).then((response) => {
           console.log(response);
