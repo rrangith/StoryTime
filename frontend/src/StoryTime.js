@@ -90,9 +90,10 @@ const TranscriptText = styled.h1`
     font-weight: 400;
     padding-right: 3%;
 `;
-const CaptionText = styled.h4`
+const CaptionText = styled.h3`
     font-family:Tajawal;
     font-weight: 400;
+    text-align: center;
     padding-right: 3%;
 `;
 

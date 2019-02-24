@@ -33,8 +33,9 @@ display: flex;
 flex-direction: row;
 margin-top: 3%;
 `;
-const CaptionText = styled.h4`
-    font-family:Tajawal;
+const CaptionText = styled.h3`
+    text-align: center;
+    font-family: Tajawal;
     font-weight: 400;
     padding-right: 3%;
 `;
