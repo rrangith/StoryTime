@@ -76,7 +76,7 @@ export default class VideoFeed extends Component {
                     <Link to=''>
                         <TitleDiv>
                             <TitleText>
-                                storytimeVF
+                                storytime
                             </TitleText>
                         </TitleDiv>
                     </Link>
