@@ -235,7 +235,7 @@ export default class App extends Component {
                     </Link>
                     <Link to={'/VideoFeed'}>
                         <ButtonText>
-                            Videos
+                            Stories
                         </ButtonText>
                     </Link>
                 </ButtonDiv>
