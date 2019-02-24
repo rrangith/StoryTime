@@ -16,7 +16,7 @@ from secrets import azure_key, google_cloud_keyfile
 stop_words = get_stop_words('en')
 
 azure_subscription_key = azure_key
-blacklist = ['pixelbay']
+blacklist = ['pixabay']
 
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = google_cloud_keyfile
 
@@ -156,8 +156,8 @@ def get_recent_stories():
     stories = mongo.find()
     data = []
     for story in stories:
-        if 'data' in story and len(story['data']) > 0:
-            data.append({'id': story['_id'], 'thumbnail': story['data'][0]['image']})
+        if 'data' in story and len(story['data']) > 0 and len(story['data'][0]) > 0:
+            data.append({'id': story['_id'], 'thumbnail': story['data'][0][0]['image']})
     return jsonify(stories=data)
 
 

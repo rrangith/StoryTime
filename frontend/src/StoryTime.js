@@ -175,9 +175,9 @@ class App extends Component {
 
     };
 
-  onStop(recordedBlob) {
+  onStop = (recordedBlob) => {
       let formData = new FormData();
-      formData.append("data", "[]");
+      formData.append("data", JSON.stringify(this.state.images));
       formData.append("audio", recordedBlob.blob);
       axios.post('http://localhost:5000/save', formData, {
           headers: {'Content-Type': 'multipart/form-data'}
@@ -189,10 +189,6 @@ class App extends Component {
 
     componentDidMount() {
       setInterval(this.compareLastTranscript, 750);
-    }
-
-    componentDidMount() {
-        setInterval(this.compareLastTranscript, 750);
     }
 
     render() {
