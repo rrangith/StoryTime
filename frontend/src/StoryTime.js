@@ -209,7 +209,7 @@ class App extends Component {
                         </TitleDiv>
                     </Link>
                     <VideoFeed>
-                        <Link to='/VideoFeed'>
+                        <Link to='/StoryFeed'>
                             <VideoFeedText>
                                 videos
                             </VideoFeedText>

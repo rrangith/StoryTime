@@ -233,7 +233,7 @@ export default class App extends Component {
                             Start
                         </ButtonText>
                     </Link>
-                    <Link to={'/VideoFeed'}>
+                    <Link to={'/StoryFeed'}>
                         <ButtonText>
                             Stories
                         </ButtonText>
@@ -246,7 +246,7 @@ export default class App extends Component {
                 <div>
                     <Route exact path='' component={Home}/>
                     <Route exact path='/StoryTime' component={StoryTime}/>
-                    <Route exact path='/VideoFeed' component={VideoFeed}/>
+                    <Route exact path='/StoryFeed' component={VideoFeed}/>
                     <Route exact path='/Story/:id' component={WatchVideo}/>
                 </div>
             </Router>
