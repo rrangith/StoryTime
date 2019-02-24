@@ -123,7 +123,7 @@ class App extends Component {
 
     capture = () => {
         const imageSrc = this.webcam.getScreenshot();
-        axios.post('http://localhost:5000/getImage', {
+        axios.post('/api/getImage', {
             image: imageSrc, text: this.state.text
         }).then((response) => {
             let storypic = {
@@ -179,7 +179,7 @@ class App extends Component {
       let formData = new FormData();
       formData.append("data", JSON.stringify(this.state.images));
       formData.append("audio", recordedBlob.blob);
-      axios.post('http://localhost:5000/save', formData, {
+      axios.post('/api/save', formData, {
           headers: {'Content-Type': 'multipart/form-data'}
       }).then((response) => {
           console.log(response);
@@ -188,7 +188,7 @@ class App extends Component {
     };
 
     componentDidMount() {
-      setInterval(this.compareLastTranscript, 750);
+      setInterval(this.compareLastTranscript, 700);
     }
 
     render() {

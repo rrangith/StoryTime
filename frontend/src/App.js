@@ -246,7 +246,7 @@ export default class App extends Component {
                     <Route exact path='' component={Home}/>
                     <Route exact path='/StoryTime' component={StoryTime}/>
                     <Route exact path='/VideoFeed' component={VideoFeed}/>
-                    <Route exact path='/WatchVideo' component={WatchVideo}/>
+                    <Route exact path='/Story/:id' component={WatchVideo}/>
                 </div>
             </Router>
         );

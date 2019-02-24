@@ -59,14 +59,13 @@ export default class VideoFeed extends Component {
     }
 
     componentDidMount() {
-        axios.get('http://localhost:5000/stories').then((response) => {
+        axios.get('/api/stories').then((response) => {
             this.setState({
-                stories: response.data,
+                stories: response.data.stories,
             })
         })
 
     }
-
 
     render() {
         let pics = this.state.stories;
@@ -87,10 +86,11 @@ export default class VideoFeed extends Component {
                                 <PictureRow key={index}>
                                     {pics[index].map((imgObj, index) => {
                                         return (
-                                            <ImageDiv>
-                                                <StoryPic src={imgObj.thumbnail} key={index} height="300" width="250"/>
-
-                                                <CaptionText>Watch</CaptionText>
+                                            <ImageDiv key = {index}>
+                                                <Link to={'/Story/'+imgObj.id}>
+                                                    <StoryPic src={imgObj.thumbnail} key={index} height="300" width="250"/>
+                                                    <CaptionText>{imgObj.text}</CaptionText>
+                                                </Link>
                                             </ImageDiv>
                                         );
                                     })

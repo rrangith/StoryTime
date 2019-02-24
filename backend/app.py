@@ -161,6 +161,7 @@ def get_recent_stories():
             if counter % 3 == 0:
                 data.append([])
             data[counter // 3].append({'id': story['_id'], 'thumbnail': story['data'][0][0]['image'], 'text': story['data'][0][0]['text']})
+            counter += 1
     return jsonify(stories=data)
 
 
