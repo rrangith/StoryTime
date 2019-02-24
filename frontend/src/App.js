@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
 import StoryTime from './StoryTime';
 import Typing from 'react-typing-animation';
+import VideoFeed from './VideoFeed';
+import WatchVideo from './WatchVideo';
 
 const HomeContainer = styled.div`
     height: 100vh;
@@ -38,12 +40,15 @@ const ButtonDiv = styled.div`
     text-align:center;
     padding-top: 3.5%;
     position: relative;
+   
 
 
 `;
 
 const ButtonText = styled.h2`
     opacity: 0;
+    border: solid 1px;
+    border-color: #fff;
     display: inline-block
     padding: 0.4% 3.4% ;
     border-radius: 5%;
@@ -116,6 +121,8 @@ export default class App extends Component {
                 <div>
                     <Route exact path='' component={Home}/>
                     <Route exact path='/StoryTime' component={StoryTime}/>
+                    <Route exact path='/VideoFeed' component={VideoFeed}/>
+                    <Route exact path='/WatchVideo' component={WatchVideo}/>
                 </div>
             </Router>
         );
