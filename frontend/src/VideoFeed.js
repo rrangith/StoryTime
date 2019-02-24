@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import styled from "styled-components";
+import axios from "axios";
 
 const NavBar = styled.div`
     height: 8vh;
@@ -20,18 +21,87 @@ const TitleText = styled.div`
     padding-left:5%;
     display: inline-block;
 `;
+const PictureContainer = styled.div`
+display: flex;
+flex-direction: column;
+margin-left: 15%;
+`;
+
+const PictureRow = styled.div`
+display: flex;
+flex-direction: row;
+margin-top: 3%;
+`;
+const CaptionText = styled.h4`
+    font-family:Tajawal;
+    font-weight: 400;
+    padding-right: 3%;
+`;
+
+const ImageDiv = styled.div`
+    margin: 1%;
+`;
+const StoryPic = styled.img`
+height: 270px
+max-width: none;
+min-width: 270px;
+margin:3%
+
+`;
+
 export default class VideoFeed extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            stories: [],
+        }
+    }
+
+    componentDidMount() {
+        axios.get('http://localhost:5000/stories').then((response) => {
+            this.setState({
+                stories: response.data,
+            })
+        })
+
+    }
+
+
     render() {
+        let pics = this.state.stories;
         return (
-            <NavBar>
-                <Link to=''>
-                    <TitleDiv>
-                        <TitleText>
-                            storytimeVF
-                        </TitleText>
-                    </TitleDiv>
-                </Link>
-            </NavBar>
+            <div>
+                <NavBar>
+                    <Link to=''>
+                        <TitleDiv>
+                            <TitleText>
+                                storytimeVF
+                            </TitleText>
+                        </TitleDiv>
+                    </Link>
+                </NavBar>
+                <PictureContainer>
+                    {pics.map((row, index) => {
+                            return (
+                                <PictureRow key={index}>
+                                    {pics[index].map((imgObj, index) => {
+                                        return (
+                                            <ImageDiv>
+                                                <StoryPic src={imgObj.thumbnail} key={index} height="300" width="250"/>
+
+                                                <CaptionText>Watch</CaptionText>
+                                            </ImageDiv>
+                                        );
+                                    })
+                                    }
+                                </PictureRow>
+                            )
+                        }
+                    )
+                    }
+                </PictureContainer>
+            </div>
         )
     }
 }
