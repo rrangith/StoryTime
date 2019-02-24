@@ -59,7 +59,6 @@ const MicDiv = styled.div`
 const ButtonDiv = styled.div`
     height: 25vh;
     text-align:center;
-    padding-top: 3.5%;
     position: relative;
 `;
 
@@ -90,7 +89,7 @@ class App extends Component {
 
     capture = () => {
         const imageSrc = this.webcam.getScreenshot();
-        axios.post('/api/getImage', {
+        axios.post('http://localhost:5000/getImage', {
             image: imageSrc, text: this.state.text
         }).then((response) => {
             let storypic = {
@@ -176,8 +175,8 @@ class App extends Component {
                 </NavBar>
                 <Invisible>
                     <Webcam
-                        height={350}
-                        width={400}
+                        height={250}
+                        width={300}
                         screenshotFormat="image/jpeg"
                         ref={this.setRef}
                     />
@@ -200,7 +199,10 @@ class App extends Component {
                                 <PictureRow key={index}>
                                     {pics[index].map((imgObj, index) => {
                                         return (
+                                            <div>
                                             <StoryPic src={imgObj.image} key={index} height="300" width="250"/>
+                                                <h4>{imgObj.text}</h4>
+                                            </div>
                                         );
                                     })
                                     }
