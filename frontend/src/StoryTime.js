@@ -168,23 +168,28 @@ class App extends Component {
     };
 
     stopRecording = () => {
-        this.props.stopListening();
-        this.setState({
-            record: false
-        });
+      this.props.stopListening();
+      this.setState({
+          record: false
+      });
+
     };
 
-    onStop(recordedBlob) {
-        let formData = new FormData();
-        formData.append("data", "[]");
-        formData.append("audio", recordedBlob.blob);
-        axios.post('/api/save', formData, {
-            headers: {'Content-Type': 'multipart/form-data'}
-        }).then((response) => {
-            console.log(response);
-        });
-        console.log('recordedBlob is: ', recordedBlob);
+  onStop(recordedBlob) {
+      let formData = new FormData();
+      formData.append("data", "[]");
+      formData.append("audio", recordedBlob.blob);
+      axios.post('http://localhost:5000/save', formData, {
+          headers: {'Content-Type': 'multipart/form-data'}
+      }).then((response) => {
+          console.log(response);
+      });
+      console.log('recordedBlob is: ', recordedBlob);
     };
+
+    componentDidMount() {
+      setInterval(this.compareLastTranscript, 750);
+    }
 
     componentDidMount() {
         setInterval(this.compareLastTranscript, 750);
