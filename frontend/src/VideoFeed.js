@@ -32,10 +32,11 @@ display: flex;
 flex-direction: row;
 margin-top: 3%;
 `;
-const CaptionText = styled.h4`
+const CaptionText = styled.h3`
     font-family:Tajawal;
     font-weight: 400;
     padding-right: 3%;
+    text-align: center;
 `;
 
 const ImageDiv = styled.div`
