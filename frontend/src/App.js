@@ -219,7 +219,7 @@ export default class App extends Component {
                 <DescriptionDiv>
                     <DescriptionText>
                         <Typing
-
+                            speed={50}
                         >
                             <span>We bring your stories to life.</span>
                         </Typing>
