@@ -7,7 +7,7 @@ A web app that will record user's speech and generate a story using images. The 
 ### Technologies
 React, Flask, MongoDB, Docker, Nginx, Azure, Google Cloud Platform
 
-![Image](https://imgur.com/a/Z9us0iu)
+![Image](https://i.imgur.com/uBJGTHU.png)
 
 ### Instructions to Run
 Prerequisites: You must have Docker and MongoDB installed and you must have a setup.py file containing the azure and google cloud platform service keys, and the google service file in the backend folder. The app only works on google chrome.
