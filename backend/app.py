@@ -11,7 +11,7 @@ from stop_words import get_stop_words
 import gridfs
 import json
 
-from secrets import azure_key, google_cloud_keyfile
+from secrets import azure_key, google_cloud_keyfile, mongo_uri
 
 stop_words = get_stop_words('en')
 
@@ -32,7 +32,7 @@ client = vision.ImageAnnotatorClient()
 # Names of likelihood from google.cloud.vision.enums
 likelihood_name = ('UNKNOWN', 'VERY_UNLIKELY', 'UNLIKELY', 'POSSIBLE', 'LIKELY', 'VERY_LIKELY')
 
-mongo_client = pymongo.MongoClient('mongodb://167.114.114.225:27017/')
+mongo_client = pymongo.MongoClient(mongo_uri)
 mongo = mongo_client['storytime']['sessions']
 audio = gridfs.GridFS(mongo_client['audio'])
 
