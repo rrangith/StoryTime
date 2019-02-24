@@ -155,9 +155,12 @@ def listen(story):
 def get_recent_stories():
     stories = mongo.find()
     data = []
+    counter = 0
     for story in stories:
         if 'data' in story and len(story['data']) > 0 and len(story['data'][0]) > 0:
-            data.append({'id': story['_id'], 'thumbnail': story['data'][0][0]['image']})
+            if counter % 3 == 0:
+                data.append([])
+            data[counter % 3].append({'id': story['_id'], 'thumbnail': story['data'][0][0]['image']})
     return jsonify(stories=data)
 
 
