@@ -52,55 +52,65 @@ margin:3%
 `;
 
 export default class WatchVideo extends Component {
-  constructor(props) {
-      super(props);
-      this.state = {
-          pictures: [],
-      }
-  }
+    constructor(props) {
+        super(props);
+        this.state = {
+            pictures: [],
+            storyID:'',
 
-  componentDidMount() {
-    const id = this.props.match.params.id;
-    console.log(id);
-      axios.get(`/api/story/${id}`).then((response) => {
-          this.setState({
-              pictures: response.data.data,
-          })
-      })
+        }
+    }
 
-  }
+    componentDidMount() {
+        const id = this.props.match.params.id;
+        console.log(id);
+        axios.get(`/api/story/${id}`).then((response) => {
+            this.setState({
+                pictures: response.data.data,
+                storyID: id,
+            })
+        })
+
+    }
+
     render() {
-      let pics = this.state.pictures;
+        let pics = this.state.pictures;
+        let audURL = "https://storytime.tech/api/audio"+ this.state.storyID;
         return (
-          <div>
-            <NavBar>
-                <Link to=''>
-                    <TitleDiv>
-                        <TitleText>
-                            storytime
-                        </TitleText>
-                    </TitleDiv>
-                </Link>
-            </NavBar>
-            <PictureContainer>
-                {pics.map((row, index) => {
-                        return (
-                            <PictureRow key={index}>
-                                {pics[index].map((imgObj, index) => {
-                                    return (
-                                        <ImageDiv>
+            <div>
+                <NavBar>
+                    <Link to=''>
+                        <TitleDiv>
+                            <TitleText>
+                                storytime
+                            </TitleText>
+                        </TitleDiv>
+                    </Link>
+                </NavBar>
+                <PictureContainer>
+                    {pics.map((row, index) => {
+                            return (
+                                <PictureRow key={index}>
+                                    {pics[index].map((imgObj, index) => {
+                                        return (
+                                            <ImageDiv>
                                                 <StoryPic src={imgObj.image} key={index} height="300" width="250"/>
                                                 <CaptionText>{imgObj.text}</CaptionText>
-                                        </ImageDiv>
-                                    );
-                                })
-                                }
-                            </PictureRow>
-                        )
+                                                <audio
+                                                    src={audURL}
+                                                    type="audio/webm"
+                                                    controls>
+                                                </audio>
+                                            </ImageDiv>
+                                        );
+                                    })
+                                    }
+                                </PictureRow>
+                            )
+                        }
+                    )
                     }
-                )
-                }
-            </PictureContainer>
+                </PictureContainer>
             </div>
         )
     }
