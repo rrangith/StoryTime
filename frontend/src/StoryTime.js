@@ -188,7 +188,7 @@ class App extends Component {
     };
 
     componentDidMount() {
-      setInterval(this.compareLastTranscript, 500);
+      setInterval(this.compareLastTranscript, 700);
     }
 
     render() {
