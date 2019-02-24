@@ -36,9 +36,11 @@ mongo_client = pymongo.MongoClient('mongodb://localhost:27017/')
 mongo = mongo_client['storytime']['sessions']
 audio = gridfs.GridFS(mongo_client['audio'])
 
+
 @app.route('/', methods=['GET'])
 def get_page():
     return 'hi'
+
 
 @app.route('/getImage', methods=['POST'])
 def get_image():
@@ -148,9 +150,15 @@ def listen(story):
             yield file[i:len(file) if len(file) < i + 1024 else i + 1024]
     return Response(stream_with_context(load()), mimetype="audio/webm")
 
+
 @app.route('/stories', methods=['GET'])
 def get_recent_stories():
-    pass
+    stories = mongo.find()
+    data = []
+    for story in stories:
+        if 'data' in story and len(story['data']) > 0:
+            data.append({'id': story['_id'], 'thumbnail': story['data'][0]['image']})
+    return jsonify(stories=data)
 
 
 if __name__ == '__main__':
