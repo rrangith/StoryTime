@@ -160,7 +160,7 @@ def get_recent_stories():
         if 'data' in story and len(story['data']) > 0 and len(story['data'][0]) > 0:
             if counter % 3 == 0:
                 data.append([])
-            data[counter // 3].append({'id': story['_id'], 'thumbnail': story['data'][0][0]['image']})
+            data[counter // 3].append({'id': story['_id'], 'thumbnail': story['data'][0][0]['image'], 'text': story['data'][0][0]['text']})
             counter += 1
     return jsonify(stories=data)
 

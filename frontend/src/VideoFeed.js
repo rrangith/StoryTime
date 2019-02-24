@@ -86,11 +86,11 @@ export default class VideoFeed extends Component {
                             return (
                                 <PictureRow key={index}>
                                     {pics[index].map((imgObj, index) => {
+                                        console.log(imgObj);
                                         return (
                                             <ImageDiv>
                                                 <StoryPic src={imgObj.thumbnail} key={index} height="300" width="250"/>
-
-                                                <CaptionText>Watch</CaptionText>
+                                                <CaptionText>{imgObj.text}</CaptionText>
                                             </ImageDiv>
                                         );
                                     })
