@@ -59,7 +59,7 @@ export default class VideoFeed extends Component {
     }
 
     componentDidMount() {
-        axios.get('http://localhost:5000/stories').then((response) => {
+        axios.get('/api/stories').then((response) => {
             this.setState({
                 stories: response.data.stories,
             })

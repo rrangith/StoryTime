@@ -61,7 +61,7 @@ export default class WatchVideo extends Component {
   componentDidMount() {
     const id = this.props.match.params.id;
     console.log(id);
-      axios.get(`http://localhost:5000/story/${id}`).then((response) => {
+      axios.get(`/api/story/${id}`).then((response) => {
           this.setState({
               pictures: response.data.data,
           })
