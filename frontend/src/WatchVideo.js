@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import styled from "styled-components";
+import axios from "axios";
 
 const NavBar = styled.div`
     height: 8vh;
@@ -21,19 +22,85 @@ const TitleText = styled.div`
     padding-left:5%;
     display: inline-block;
 `;
-export default class WatchVideo extends Component {
+const PictureContainer = styled.div`
+display: flex;
+flex-direction: column;
+margin-left: 15%;
+`;
 
+const PictureRow = styled.div`
+display: flex;
+flex-direction: row;
+margin-top: 3%;
+`;
+const CaptionText = styled.h4`
+    font-family:Tajawal;
+    font-weight: 400;
+    padding-right: 3%;
+`;
+
+const ImageDiv = styled.div`
+    margin: 1%;
+`;
+const StoryPic = styled.img`
+height: 270px
+max-width: none;
+min-width: 270px;
+margin:3%
+
+`;
+
+export default class WatchVideo extends Component {
+  constructor(props) {
+      super(props);
+      this.state = {
+          pictures: [],
+      }
+  }
+
+  componentDidMount() {
+    const id = this.props.match.params.id;
+    console.log(id);
+      axios.get(`http://localhost:5000/story/${id}`).then((response) => {
+          this.setState({
+              pictures: response.data.data,
+          })
+      })
+
+  }
     render() {
+      let pics = this.state.pictures;
         return (
+          <div>
             <NavBar>
                 <Link to=''>
                     <TitleDiv>
                         <TitleText>
-                            storytime WV
+                            storytimeWV
                         </TitleText>
                     </TitleDiv>
                 </Link>
             </NavBar>
+            <PictureContainer>
+                {pics.map((row, index) => {
+                        return (
+                            <PictureRow key={index}>
+                                {pics[index].map((imgObj, index) => {
+                                    return (
+                                        <ImageDiv>
+                                                <StoryPic src={imgObj.image} key={index} height="300" width="250"/>
+                                                <CaptionText>{imgObj.text}</CaptionText>
+                                        </ImageDiv>
+                                    );
+                                })
+                                }
+                            </PictureRow>
+                        )
+                    }
+                )
+                }
+            </PictureContainer>
+            </div>
         )
     }
 

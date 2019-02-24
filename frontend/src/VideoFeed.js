@@ -67,7 +67,6 @@ export default class VideoFeed extends Component {
 
     }
 
-
     render() {
         let pics = this.state.stories;
         return (
@@ -86,11 +85,12 @@ export default class VideoFeed extends Component {
                             return (
                                 <PictureRow key={index}>
                                     {pics[index].map((imgObj, index) => {
-                                        console.log(imgObj);
                                         return (
-                                            <ImageDiv>
-                                                <StoryPic src={imgObj.thumbnail} key={index} height="300" width="250"/>
-                                                <CaptionText>{imgObj.text}</CaptionText>
+                                            <ImageDiv key = {index}>
+                                                <Link to={'/Story/'+imgObj.id}>
+                                                    <StoryPic src={imgObj.thumbnail} key={index} height="300" width="250"/>
+                                                    <CaptionText>{imgObj.text}</CaptionText>
+                                                </Link>
                                             </ImageDiv>
                                         );
                                     })
