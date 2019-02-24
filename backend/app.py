@@ -32,7 +32,7 @@ client = vision.ImageAnnotatorClient()
 # Names of likelihood from google.cloud.vision.enums
 likelihood_name = ('UNKNOWN', 'VERY_UNLIKELY', 'UNLIKELY', 'POSSIBLE', 'LIKELY', 'VERY_LIKELY')
 
-mongo_client = pymongo.MongoClient('mongodb://localhost:27017/')
+mongo_client = pymongo.MongoClient('mongodb://167.114.114.225:27017/')
 mongo = mongo_client['storytime']['sessions']
 audio = gridfs.GridFS(mongo_client['audio'])
 
