@@ -10,7 +10,7 @@ React, Flask, MongoDB, Docker, Nginx, Azure, Google Cloud Platform
 ![Image](https://i.imgur.com/uBJGTHU.png)
 
 ### Instructions to Run
-Prerequisites: You must have Docker and MongoDB installed and you must have a setup.py file containing the azure and google cloud platform service keys, and the google service file in the backend folder. The app only works on google chrome.
+Prerequisites: You must have Docker and MongoDB installed and you must have a secrets.py file containing the azure and google cloud platform service keys, and the google service file in the backend folder. The app only works on google chrome.
 
 Clone the repo. cd into the project directory. Run `docker-compose up --build` and go to localhost:80
 
