@@ -27,10 +27,7 @@ spec:
               # subPath: mongo
           env:
             - name: MONGO_INITDB_ROOT_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: mongo_initdb_root_username
-                  key: MONGO_INITDB_ROOT_USERNAME
+              value: mongo
             - name: MONGO_INITDB_ROOT_PASSWORD
               valueFrom:
                 secretKeyRef:
