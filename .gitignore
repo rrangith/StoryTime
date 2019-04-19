@@ -6,6 +6,7 @@ backend/HackTheValley-eb4272e89b71.json
 venv
 .idea
 backend/secrets.py
+backend/secrets-real.py
 backend/test*
 node_modules/
 .vscode/

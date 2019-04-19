@@ -12,14 +12,18 @@ import gridfs
 import json
 import io
 
-from secrets import azure_key, google_cloud_keyfile, mongo_uri
+from secrets import azure_key, mongo_uri
+from keys import MONGO_USER, MONGO_PASSWORD, MONGO_PORT, MONGO_HOST, AZURE_API_KEY
 
 stop_words = get_stop_words('en')
 
-azure_subscription_key = azure_key
+azure_subscription_key = azure_key or AZURE_API_KEY
+google_cloud_key = 'HackTheValley-eb4272e89b71.json'
+mongo_url = mongo_uri or "mongodb://%s:%s@%s:%s/" % (MONGO_USER, MONGO_PASSWORD, MONGO_HOST, MONGO_PORT)
+
 blacklist = ['pixabay']
 
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = google_cloud_keyfile
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = google_cloud_key
 
 bing_search_url = "https://api.cognitive.microsoft.com/bing/v7.0/images/search"
 
@@ -33,7 +37,7 @@ client = vision.ImageAnnotatorClient()
 # Names of likelihood from google.cloud.vision.enums
 likelihood_name = ('UNKNOWN', 'VERY_UNLIKELY', 'UNLIKELY', 'POSSIBLE', 'LIKELY', 'VERY_LIKELY')
 
-mongo_client = pymongo.MongoClient(mongo_uri)
+mongo_client = pymongo.MongoClient(mongo_url)
 mongo = mongo_client['storytime']['sessions']
 audio = gridfs.GridFS(mongo_client['audio'])
 
