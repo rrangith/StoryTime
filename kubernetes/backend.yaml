@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      component: backend
+  template:
+    metadata:
+      labels:
+        component: backend
+    spec:
+      containers:
+        - name: backend
+          image: rrangith/backend
+          ports:
+            - containerPort: 5000
+          env:
+            - name: MONGOUSER
+              value: mongo
+            - name: MONGOHOST
+              value: mongo-cluster-ip-service
+            - name: MONGOPORT
+              value: '27017'
+            - name: MONGOPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mongo_initdb_root_password
+                  key: MONGO_INITDB_ROOT_PASSWORD
+            - name: AZUREKEY
+              valueFrom:
+                secretKeyRef:
+                  name: azurekey
+                  key: AZUREKEY

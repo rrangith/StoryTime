@@ -1,11 +1,14 @@
 frontend/.idea/
 *.xml
 __pycache__/
-backend/HackTheValley-eb4272e89b71.json
+backend/google-cloud-vision-key.json
+backend/storytime-key.json
 .DS_STORE
 venv
 .idea
 backend/secrets.py
+backend/secrets-real.py
+backend/secrets-real.py
 backend/test*
 node_modules/
 .vscode/
