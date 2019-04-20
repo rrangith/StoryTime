@@ -18,7 +18,7 @@ from keys import MONGO_USER, MONGO_PASSWORD, MONGO_PORT, MONGO_HOST, AZURE_API_K
 stop_words = get_stop_words('en')
 
 azure_subscription_key = azure_key or AZURE_API_KEY
-google_cloud_key = 'HackTheValley-eb4272e89b71.json'
+google_cloud_key = 'google-cloud-vision-key.json'
 mongo_url = mongo_uri or "mongodb://%s:%s@%s:%s/" % (MONGO_USER, MONGO_PASSWORD, MONGO_HOST, MONGO_PORT)
 
 blacklist = ['pixabay']
