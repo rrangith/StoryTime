@@ -1,13 +1,14 @@
 sudo: required
 services:
-  - docker
+- docker
 env:
   global:
-    - SHA=$(git rev-parse HEAD)
-    - CLOUDSDK_CORE_DISABLE_PROMPTS=1
+  - SHA=$(git rev-parse HEAD)
+  - CLOUDSDK_CORE_DISABLE_PROMPTS=1
 before_install:
-  - openssl aes-256-cbc -K $encrypted_278b7835c937_key -iv $encrypted_278b7835c937_iv -in google-cloud-vision-key.json.enc -out google-cloud-vision-key.json -d
-  - openssl aes-256-cbc -K $encrypted_278b7835c937_key -iv $encrypted_278b7835c937_iv -in storytime-key.json.enc -out storytime-key.json -d
+  - openssl aes-256-cbc -K $encrypted_3b990b2c2c72_key -iv $encrypted_3b990b2c2c72_iv
+    -in secrets.tar.enc -out secrets.tar -d
+  - tar xvf secrets.tar
   - curl https://sdk.cloud.google.com | bash > /dev/null;
   - source $HOME/google-cloud-sdk/path.bash.inc
   - gcloud components update kubectl
@@ -16,7 +17,6 @@ before_install:
   - gcloud config set compute/zone us-central1-a
   - gcloud container clusters get-credentials storytime-cluster
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-
 deploy:
   provider: script
   script: bash ./deploy.sh

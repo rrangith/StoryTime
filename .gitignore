@@ -3,6 +3,7 @@ frontend/.idea/
 __pycache__/
 google-cloud-vision-key.json
 storytime-key.json
+secrets.tar
 .DS_STORE
 venv
 .idea
