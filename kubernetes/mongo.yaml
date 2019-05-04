@@ -31,8 +31,8 @@ spec:
             - name: MONGO_INITDB_ROOT_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: mongo_initdb_root_password
-                  key: MONGO_INITDB_ROOT_PASSWORD
+                  name: mongopassword
+                  key: MONGOPASSWORD
 ---
 apiVersion: v1
 kind: Service

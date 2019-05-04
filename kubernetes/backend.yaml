@@ -27,8 +27,8 @@ spec:
             - name: MONGOPASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: mongo_initdb_root_password
-                  key: MONGO_INITDB_ROOT_PASSWORD
+                  name: mongopassword
+                  key: MONGOPASSWORD
             - name: AZUREKEY
               valueFrom:
                 secretKeyRef:
