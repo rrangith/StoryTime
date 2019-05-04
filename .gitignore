@@ -1,8 +1,9 @@
 frontend/.idea/
 *.xml
 __pycache__/
-backend/google-cloud-vision-key.json
-backend/storytime-key.json
+google-cloud-vision-key.json
+storytime-key.json
+secrets.tar
 .DS_STORE
 venv
 .idea
