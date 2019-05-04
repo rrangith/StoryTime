@@ -14,7 +14,7 @@ before_install:
   - source $HOME/google-cloud-sdk/path.bash.inc
   - gcloud components update kubectl
   - gcloud auth activate-service-account --key-file storytime-key.json
-  - gcloud config set project storytime-238122
+  - gcloud config set project storytime-239619
   - gcloud config set compute/zone us-central1-a
   - gcloud container clusters get-credentials storytime-cluster
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
